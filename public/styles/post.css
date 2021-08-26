@@ -1,0 +1,50 @@
+#form{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    width: 350px;
+}
+#top-container{
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+#posts{
+    width: 740px;
+}
+.post-options{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+.post{
+    position: relative;
+}
+input[type=text],textarea{
+    width: 90%;
+    height: 40px;
+    border: 1px solid #d4d4d4;
+    border-radius: 10px;
+    outline:none;
+    transition-duration: 100ms;
+    font-family: 'Oxygen';
+}
+textarea{
+    height: 80px;
+    max-width: 90%;
+    min-width: 300px;
+    min-height: 40px;
+}
+input[type=text]:focus{
+    border: 1px solid var(--primary);
+}
+button{
+    padding: 15px 30px 15px 30px;
+    min-width: 100px;
+    font-family: 'Oxygen';
+    color: white;
+    margin: 20px;
+    background-color: var(--primary);
+    border: none;
+}
+.status{
+    color: green;
+}

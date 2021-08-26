@@ -1,0 +1,5 @@
+node_modules/
+Mockups/
+ts-out/
+mongodbgrejs.txt
+secrets.json

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang=sv-se>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+  </head>
+  <body>
+      <main>
+        <!--<canvas id="canvas"></canvas>-->
+        <div id="banner"></div>
+        <div class="card" id="title-card">
+          <div class="card-content">
+            <h1 id="title">Christoffer <br> Billman </h1>
+            <div id="profile-image-container">
+              <img src="img/profile.jpg" id="profile-image">
+              <img src="img/bitmoji.png" id="bitmoji">
+            </div>
+            <h2>Civilingenjörsstudent</h2>
+
+            <div class="whitespace-vertical"></div>
+
+            <div class="social-list">
+              <img src="img/sweden.png" id="sweden">
+
+              <a href="https://github.com/ChristofferBillman"></a><img src="img/github.svg" id="github"></a><a href="https://www.instagram.com/popkrull/"><img src="img/instagram.svg" id="insta"></a><a href="https://www.snapchat.com/add/popkrull"><img src="img/snapchat.svg" id="snap"></a>
+            </div>
+
+            <div class="whitespace-vertical"></div>
+
+            <p>
+              Studerar Civingenjör Interaktion och
+              Design vid Umeå Universitet.
+              <br><br>
+              Grafisk design, programmering och
+              webbutveckling är saker som intresserar mig!
+            </p>
+          </div>
+        </div>
+
+        <div id="language">
+          <a href="/english" style="color: white;">In English?</a>
+        </div>
+        
+        <section>
+          <h1>Projekt</h1>
+
+          <div class="flex-container" id="postsContainer">
+
+          </div>
+        </section>
+      </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/load-posts.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/background.js"></script>
+  </body>
+</html>

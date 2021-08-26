@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang=sv-se>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/post.css" type="text/css">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+  </head>
+  <body>
+      <main>
+
+        <div id="banner"></div>
+
+        <div class="flex-container" id="top-container">
+          <div class=card>
+            <div class="card-content">
+              <h1>Adminpanel</h1>
+            </div>
+          </div>
+        </div>
+
+        <section>
+
+        <div class="flex-container">
+
+          <div class="card">
+            <div class="card-content">
+              
+              <h2>Lägg till inlägg</h2>
+              <div class="whitespace-vertical"></div>
+
+              <div id="form">
+                <label>Rubrik</label>
+                <input type="text" id="title">
+
+                <label>Brödtext</label>
+                <textarea type="text" id=body></textarea>
+
+                <label>Sökväg till bild</label>
+                <input type="text" id="images">
+
+                <label>Liten</label>
+                <input type="radio" name="imagePosition" value="top">
+
+                <label>Stor</label>
+                <input type="radio" name="imagePosition" value="right">
+                <br>
+                <button id="submitButton">
+                  Skicka!
+                </button>
+                <p id="poststatus"></p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <br>
+        <br>
+        <h1>Inlägg</h1>
+        <div class="flex-container" id="posts-hook">
+
+        </div>
+      </section>
+
+      </main>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/post.js"></script>
+  </body>
+</html>

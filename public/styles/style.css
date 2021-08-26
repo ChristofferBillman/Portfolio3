@@ -1,0 +1,188 @@
+:root {
+    --primary: #A489BF;
+    --secondary: #D18431;
+    --faded-primary: #808EC7;
+    --dark-primary: #4A4A72;
+    --black: #424242;
+    --background: #F2ECE9;
+    --std-box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto+Mono:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+}
+main{
+    display: grid;
+    grid-template-columns:  minmax(100px,auto) minmax(auto,1170px) auto;
+    grid-template-rows: 100px 600px 100px 100px auto;
+}
+h1{
+    color: var(--primary);
+    font-family: 'Roboto Mono';
+    font-weight: bold;
+    font-size: 3em;
+    padding: 0;
+    margin: 0;
+}
+h2{
+    color: var(--faded-primary);
+    font-family: 'Roboto Mono';
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+}
+p,a,li,label{
+    font-family: 'Oxygen';
+    color: var(--black);
+    padding: 0;
+    margin: 0;
+    line-height: 1.5;
+}
+.social-list a{
+    font-size: 0;
+    text-decoration: none;
+    line-height: normal;
+}
+
+.card{
+    background-color: var(--background);
+    box-shadow: var(--std-box-shadow);  
+}
+.button{
+    padding: 15px 50px 15px 50px;
+    background-color: var(--secondary);
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+#gronamackan{
+    width: 100%;
+}
+.flex-container .card{
+    height: 600px;
+    width: 350px;
+    margin: 40px 40px 0 0 ;
+}
+.whitespace-vertical{
+    height: 20px;
+}
+.whitespace-horizontal{
+    width: 20px;
+}
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+section{
+    grid-column-start: 2;
+    grid-row-start: 5;
+    grid-column-end: 3;
+    grid-row-end: 5;
+}
+.card-banner-top{
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+.card-banner-right{
+    width: 65%;
+    height: 100%;
+    object-fit: cover;
+    float: right;
+}
+.card-content{
+    padding: 20px;
+}
+#social-list {
+    height: 30px;
+}
+#sweden{
+    margin: 0 30px 5px 0;
+    height: 20px;
+}
+#github, #insta, #snap, .icon{
+    height: 30px;
+    padding: 0 15px 0 0;
+    display: inline-block;
+    transition-duration: 200ms;
+}
+#github:hover, #insta:hover, #snap:hover, .icon:hover{
+    transform: translateY(-5px);
+    transition-duration: 200ms;
+}
+#profile-image{
+    border-radius: 200px;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    box-shadow: var(--std-box-shadow);
+    margin: 20px;
+    transition-duration: 200ms;
+    z-index: 100000;
+}
+#bitmoji{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+#profile-image-container{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+#title-card{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    width: 350px;
+}
+#banner{
+    grid-column-start: 1;
+    grid-row-start: 1;
+    grid-column-end: 5;
+    grid-row-end: 4;
+    
+    background: linear-gradient(91deg, #a489bf, #d18431);
+    background-size: 400% 400%;
+
+    -webkit-animation: banner-animation 29s ease infinite;
+    -moz-animation: banner-animation 29s ease infinite;
+    animation: banner-animation 29s ease infinite;
+}
+#language{
+    grid-column-start: 2;
+    grid-row-start: 3;
+    padding: 10px 0 0 0 ;
+}
+
+
+/* Banner gradient animation*/
+@-webkit-keyframes banner-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes banner-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+}
+@keyframes banner-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+}
