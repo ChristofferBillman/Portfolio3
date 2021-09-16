@@ -15,8 +15,9 @@ import 'colors'
 interface Post{
     title: String
     body: String
-    images:String | null
+    images:String[] | null
     imagePosition: String | null
+    order: number
 }
 
 const app = express()
@@ -61,7 +62,7 @@ app.get('/cv',(req,res) =>{
     res.sendFile(getView('cv.html'))
 })
 app.get('/admin',(req,res) =>{
-    res.sendFile(getView('admin.html'))
+    res.sendFile(getView('post.html'))
 })
 app.get('/login', (req,res) =>{
     res.sendFile(getView('auth.html'))
@@ -80,16 +81,18 @@ app.get('/newPost', (req,res) =>{
 
     if(!authenticated(req.query.token as string)){
         res.send({added: "no_auth"})
-        console.log("Sent no_auth!")
         return
     }
+
     const doc: Post =
     {
-        title: req.query.title as String,
-        body: req.query.body as String,
-        images: req.query.images as String,
-        imagePosition: req.query.imagePosition as String
+        title: req.query.title as string,
+        body: req.query.body as string,
+        images: ( req.query.images as string).split(",") as string[],
+        imagePosition: req.query.imagePosition as string,
+        order: req.query.order as unknown as number
     }
+    
 
     portfolio.collection("posts").insertOne(doc)
         .then((result: InsertOneResult) =>{
@@ -143,9 +146,13 @@ app.get('/editPost', (req,res)=>{
     const updatePost = {
         $set:{
             title: req.query.title,
-            body: req.query.body
+            body: req.query.body,
+            images: (req.query.images as string).split(",") as String[],
+            imagePosition: req.query.imagePosition,
+            order: req.query.order
         }
     }
+
     portfolio.collection('posts').updateOne({_id: new ObjectId(req.query._id as string)}, updatePost)
         .then(result =>{
             if(result)
@@ -156,6 +163,7 @@ app.get('/editPost', (req,res)=>{
         })
 })
 
+// Authenticate
 app.get('/auth_result', (req,res) =>{
 
     console.log(secrets.adminPassword)
@@ -180,21 +188,21 @@ function authenticated(token: string): boolean{
  *  Extracted Functions
  */
 
-/*  Returns the absolute path to files in the views folder.
+/** Returns the absolute path to files in the views folder.
  *
  *  @file    Relative path to the file, with root in views folder.
- *  Returns: The absolute path to the file requested.
+ *  @return {string} The absolute path to the file requested.
  */
 function getView(file:string):string{
     return path.resolve(__dirname + '/../views/' + file)
 }
 
-/*  Prints a message in the console.
+/** Prints a message in the console.
  *
  *  @type       The type of message. Controls the appearance of the message in the console.
  *              Allowed types are 'fatal','err','warn','note' and 'success'.
  *  @message    Message to be printed.
- *  Returns: void
+ *  @return {void}
  */
 function log(type:string,message:any): void{
     switch(type){

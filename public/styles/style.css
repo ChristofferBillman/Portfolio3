@@ -1,3 +1,7 @@
+/* SETUP */
+
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto+Mono:wght@400;700&display=swap');
+
 :root {
     --primary: #A489BF;
     --secondary: #D18431;
@@ -7,12 +11,13 @@
     --background: #F2ECE9;
     --std-box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto+Mono:wght@400;700&display=swap');
 *{
     margin: 0;
     padding: 0;
 }
+
+/* ALIGNMENT */
+
 body{
     margin: 0;
     padding: 0;
@@ -20,9 +25,47 @@ body{
 }
 main{
     display: grid;
-    grid-template-columns:  minmax(100px,auto) minmax(auto,1170px) auto;
-    grid-template-rows: 100px 600px 100px 100px auto;
+    grid-template-columns:  minmax(100px,auto) minmax(auto,1130px) auto;
+    grid-template-rows: 100px 600px 100px 100px auto 100px auto;
 }
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+.whitespace-horizontal{
+    width: 20px;
+}
+.whitespace-vertical{
+    height: 20px;
+}
+section{
+    grid-column-start: 2;
+    grid-row-start: 5;
+    grid-column-end: 3;
+    grid-row-end: 5;
+}
+.flex-container .card{
+    height: 600px;
+    width: 350px;
+}
+.card-content{
+    padding: 20px;
+}
+.card-banner-top{
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+.card-banner-right{
+    width: 65%;
+    height: 100%;
+    object-fit: cover;
+    float: right;
+}
+
+/* FONTS */
+
 h1{
     color: var(--primary);
     font-family: 'Roboto Mono';
@@ -51,9 +94,11 @@ p,a,li,label{
     line-height: normal;
 }
 
+/* CLASSES */
+
 .card{
     background-color: var(--background);
-    box-shadow: var(--std-box-shadow);  
+    box-shadow: var(--std-box-shadow);
 }
 .button{
     padding: 15px 50px 15px 50px;
@@ -61,45 +106,19 @@ p,a,li,label{
     color: white;
     text-decoration: none;
     display: inline-block;
+    transition-duration: 200ms;
 }
+.button:hover{
+    transform: translateY(-5px);
+    transition-duration: 200ms;
+    cursor: pointer;
+}
+
+/* SPECIFIC ELEMENTS */
 #gronamackan{
     width: 100%;
 }
-.flex-container .card{
-    height: 600px;
-    width: 350px;
-    margin: 40px 40px 0 0 ;
-}
-.whitespace-vertical{
-    height: 20px;
-}
-.whitespace-horizontal{
-    width: 20px;
-}
-.flex-container{
-    display: flex;
-    flex-wrap: wrap;
-}
-section{
-    grid-column-start: 2;
-    grid-row-start: 5;
-    grid-column-end: 3;
-    grid-row-end: 5;
-}
-.card-banner-top{
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
-}
-.card-banner-right{
-    width: 65%;
-    height: 100%;
-    object-fit: cover;
-    float: right;
-}
-.card-content{
-    padding: 20px;
-}
+
 #social-list {
     height: 30px;
 }
@@ -116,6 +135,7 @@ section{
 #github:hover, #insta:hover, #snap:hover, .icon:hover{
     transform: translateY(-5px);
     transition-duration: 200ms;
+    cursor: pointer;
 }
 #profile-image{
     border-radius: 200px;
@@ -149,6 +169,7 @@ section{
     grid-column-start: 2;
     grid-row-start: 2;
     width: 350px;
+    opacity: 0;
 }
 #banner{
     grid-column-start: 1;
@@ -168,9 +189,110 @@ section{
     grid-row-start: 3;
     padding: 10px 0 0 0 ;
 }
+#footer{
+    width: 100%;
+    grid-row-start: 7;
+    grid-row-end: 7;
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+#footer-content{
+    grid-row-start: 7;
+    grid-row-end: 7;
+    grid-column-start: 2;
+    grid-column-end: 5;
+}
+#gallery{
+    display: none; /* is flex when visible*/
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+    align-items: center;
+    justify-content: center;
+}
+#galleryImage{
+    width: auto;
+    height: 80vh;
+    margin-top: 5vh;
+    object-fit: scale-down;
+}
+#gallery-controls{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100%;
+}
+#galleryClose{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 50px;
+    transition-duration: 200ms;
+}
+#galleryNext, #galleryPrev {
+    height: 50px;
+    transition-duration: 200ms;
+}
+#galleryNext:hover, #galleryPrev:hover,#galleryClose:hover {
+    transform: translateY(-5px);
+    transition-duration: 200ms;
+    cursor: pointer;
+}
+#galleryCurrent{
+    font-size: 2em;
+    color: white;
+}
 
+/* MOBILE */
 
-/* Banner gradient animation*/
+@media only screen and (max-width: 768px) {
+    main{
+        display: grid;
+        grid-template-columns:  auto 350px auto;
+        grid-template-rows: 20px 600px 100px 100px auto 100px;
+    }
+
+    #banner{
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+    html{
+        overflow-x: hidden;
+    }
+    .card-banner-right{
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+    #gronamackan{
+        width: 350px;
+    }
+    #footer{
+        width: 100%;
+        grid-row-start: 7;
+        grid-row-end: 7;
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+    #footer-content{
+        grid-row-start: 7;
+        grid-row-end: 7;
+        grid-column-start: 2;
+        grid-column-end: 4;
+    }
+}
+
+/* ANIMATIONS */
+
 @-webkit-keyframes banner-animation {
     0%{background-position:0% 50%}
     50%{background-position:100% 51%}
@@ -185,4 +307,46 @@ section{
     0%{background-position:0% 50%}
     50%{background-position:100% 51%}
     100%{background-position:0% 50%}
+}
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+.fadeIn{
+    opacity: 0;
+    animation-name: transitionIn;
+    animation-duration: 1.8s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(.2,1,.3,1);
+}
+.stagger-1{
+    animation-delay: 200ms;
+    -webkit-animation-delay: 200ms;
+}
+.stagger-2{
+    animation-delay: 400ms;
+    -webkit-animation-delay: 400ms;
+}
+.stagger-3{
+    animation-delay: 600ms;
+    -webkit-animation-delay: 600ms;
+}
+.stagger-4{
+    animation-delay: 800ms;
+    -webkit-animation-delay: 800ms;
+}
+.stagger-5{
+    animation-delay: 1000ms;
+    -webkit-animation-delay: 1000ms;
+}
+.stagger-6{
+    animation-delay: 1200ms;
+    -webkit-animation-delay: 1200ms;
 }

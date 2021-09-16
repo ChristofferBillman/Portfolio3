@@ -44,6 +44,12 @@ button{
     margin: 20px;
     background-color: var(--primary);
     border: none;
+    transition-duration: 200ms;
+}
+button:hover{
+    transform: translateY(-5px);
+    transition-duration: 200ms;
+    cursor: pointer;
 }
 .status{
     color: green;

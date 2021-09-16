@@ -7,6 +7,7 @@ submit.addEventListener('click', e =>{
     .then(response =>{
         console.log(response.data)
         if(response.data.token != null){
+            // Save tokenised passoword recieved from server into localStorage.
             window.localStorage.setItem('token',response.data.token)
             window.location = "/admin"
         }

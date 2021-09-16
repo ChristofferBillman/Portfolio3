@@ -3,36 +3,36 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Portfolio</title>
+    <title>Christoffer Billman</title>
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
 
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
   </head>
   <body>
       <main>
-        <!--<canvas id="canvas"></canvas>-->
         <div id="banner"></div>
-        <div class="card" id="title-card">
+        <div class="card fadeIn" id="title-card">
           <div class="card-content">
-            <h1 id="title">Christoffer <br> Billman </h1>
-            <div id="profile-image-container">
-              <img src="img/profile.jpg" id="profile-image">
+            <h1 class="fadeIn stagger-1" id="title">Christoffer <br> Billman </h1>
+            <div class="fadeIn stagger-2" id="profile-image-container">
+              <img src="img/profile.png" id="profile-image">
               <img src="img/bitmoji.png" id="bitmoji">
             </div>
-            <h2>Civilingenjörsstudent</h2>
+            <h2 class="fadeIn stagger-3">Civilingenjörsstudent</h2>
 
             <div class="whitespace-vertical"></div>
 
-            <div class="social-list">
+            <div class="social-list fadeIn stagger-3">
               <img src="img/sweden.png" id="sweden">
 
-              <a href="https://github.com/ChristofferBillman"></a><img src="img/github.svg" id="github"></a><a href="https://www.instagram.com/popkrull/"><img src="img/instagram.svg" id="insta"></a><a href="https://www.snapchat.com/add/popkrull"><img src="img/snapchat.svg" id="snap"></a>
+              <a href="https://github.com/ChristofferBillman" target="_blank"><img src="img/github.svg" id="github" target="_blank"></a></a><a href="https://www.instagram.com/popkrull/" target="_blank"><img src="img/instagram.svg" id="insta"></a><a href="https://www.snapchat.com/add/popkrull" target="_blank"><img src="img/snapchat.svg" id="snap"></a>
             </div>
 
             <div class="whitespace-vertical"></div>
 
-            <p>
+            <p class="fadeIn stagger-4">
               Studerar Civingenjör Interaktion och
               Design vid Umeå Universitet.
               <br><br>
@@ -43,20 +43,41 @@
         </div>
 
         <div id="language">
-          <a href="/english" style="color: white;">In English?</a>
+          <a href="/english" style="color: white;" class="fadeIn stagger-5">In English?</a>
         </div>
         
-        <section>
+        <section class="fadeIn stagger-6">
           <h1>Projekt</h1>
+          <div class="whitespace-vertical"></div>
 
           <div class="flex-container" id="postsContainer">
 
           </div>
+
+        <div class="whitespace-vertical"></div>
         </section>
+
+        <div class="card" id="footer">
+        </div>
+        <div class="card-content" id="footer-content">
+          <p>© 2021 Christoffer Billman. <br>Alla rättigheter reserverade.</p>
+        </div>
+
+        <div id="gallery">
+          <img id="galleryImage" src="img/portfolio2/cards.png">
+
+          <div class="whitespace-vertical"></div>
+
+          <div id="gallery-controls">
+            <img id="galleryPrev" src="img/icons/chevron-left.svg">
+            <p id="galleryCurrent">0</p>
+            <img id="galleryNext" src="img/icons/chevron-right.svg">
+          </div>
+            <img id="galleryClose" src="img/icons/close.svg">
+          </div>
       </main>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/load-posts.js"></script>
     <script src="js/index.js"></script>
-    <script src="js/background.js"></script>
   </body>
 </html>
