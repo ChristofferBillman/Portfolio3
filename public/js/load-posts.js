@@ -17,37 +17,39 @@ InitGallery()
  *  Empties the div 'postsContainer' (id: posts-hook) and
  *  populates it with new, updated posts from the server.
  */
-function UpdatePosts(){
+function UpdatePosts() {
     axios.get('getPosts?')
-    .then(response =>{
-        // sort posts by the order-attribute.
-        response.data.sort((a,b)=>{ return (a.order > b.order ? 1:-1)})
-        
-        response.data.forEach(post => {
-            // Format post data and insert in postsContainer.
-            let postNode = GetPostNode(post)
-            addGalleryListener(postNode,post.images)
-            postsContainer.appendChild(postNode)
-        });
-    })
+        .then(response => {
+            // sort posts by the order-attribute.
+            response.data.sort((a, b) => { return (a.order > b.order ? 1 : -1) })
+
+            response.data.forEach(post => {
+                // Format post data and insert in postsContainer.
+                let postNode = GetPostNode(post)
+                addGalleryListener(postNode, post.images)
+                postsContainer.appendChild(postNode)
+            });
+        })
 }
 /**
  * Adds eventlisters to the gallery controls.
  */
-function InitGallery(){
+function InitGallery() {
 
-    closeGallery.addEventListener("click", e =>{
+    closeGallery.addEventListener("click", e => {
         gallery.style.display = "none"
     })
-    gallery.addEventListener("click", e =>{
+    gallery.addEventListener("click", e => {
         galleryControls = document.getElementById("gallery-controls")
-        if(e.target == gallery || e.target == galleryControls) gallery.style.display = "none"
+        if (e.target == gallery || e.target == galleryControls) {
+            gallery.style.display = "none"
+        }
     })
-    galleryNext.addEventListener("click", e =>{
+    galleryNext.addEventListener("click", e => {
         changeCurrentImgPos(true)
         currentImg.src = currentImgArr[currentImgPos]
     })
-    galleryPrev.addEventListener("click", e =>{
+    galleryPrev.addEventListener("click", e => {
         changeCurrentImgPos(false)
         currentImg.src = currentImgArr[currentImgPos]
     })
@@ -58,43 +60,44 @@ function InitGallery(){
  * @param {*} postNode The post to which to apply the eventlister to.
  * @param {*} images   An array of the paths to the images to be viewed when button is pressed.
  */
-function addGalleryListener(postNode,images){
-    let openGallery = postNode.getElementsByClassName('openGallery')[0]
+function addGalleryListener(postNode, images) {
+    let openGalleryBinds = postNode.getElementsByClassName('openGallery')
     currentImg = document.getElementById("galleryImage")
 
-    openGallery.addEventListener("click", e =>{
-        currentImgPos = 0
-        currentImgArr = images
-        galleryCurrent.innerHTML = currentImgPos+1 + " av " + currentImgArr.length
-        currentImg.src = currentImgArr[currentImgPos]
-        gallery.style.display = "flex";
-        document.body.overflow = "hidden"
-    })
+    for (let button of openGalleryBinds)
+        button.addEventListener("click", e => {
+            currentImgPos = 0
+            currentImgArr = images
+            galleryCurrent.innerHTML = currentImgPos + 1 + " av " + currentImgArr.length
+            currentImg.src = currentImgArr[currentImgPos]
+            gallery.style.display = "flex"
+            document.body.overflow = "hidden"
+        })
 }
 /**
  * Changes the current image position (global variable currentImgPos), either forward och backward.
  * @param {boolean} forward Specifies wheter to increment currentImgPos forward och downward.
  */
-function changeCurrentImgPos(forward){
-    
-    if(forward) currentImgPos++
+function changeCurrentImgPos(forward) {
+
+    if (forward) currentImgPos++
     else currentImgPos--
 
-    if(currentImgPos < 0) currentImgPos = currentImgArr.length - 1
-    if(currentImgPos == currentImgArr.length) currentImgPos = 0
+    if (currentImgPos < 0) currentImgPos = currentImgArr.length - 1
+    if (currentImgPos == currentImgArr.length) currentImgPos = 0
 
-    galleryCurrent.innerHTML=currentImgPos+1 + " av " + currentImgArr.length 
+    galleryCurrent.innerHTML = currentImgPos + 1 + " av " + currentImgArr.length
 }
 /**
  * Creates a node ready to be inserted into DOM from a string of HTML.
  * @param {String} htmlString A string with HTML. 
  * @returns {ChildNode} The childNode created.
  */
- function CreateElementFromHTML(htmlString) {
+function CreateElementFromHTML(htmlString) {
     let div = document.createElement('div');
     div.innerHTML = htmlString.trim();
     return div.firstChild;
-  }
+}
 
 /**
  * Creates and formats post data into a node ready to be inserted into the DOM.
@@ -105,8 +108,8 @@ function GetPostNode(post) {
     console.log("hej")
     //Change name of css class gronamackan to 'big', or something...
     return CreateElementFromHTML(`
-    <div class="card" id="${post.imagePosition == 'right' ?  'gronamackan': ''}">
-    <img src="${getImage(post.images[0])}" class="${convertImagePositioning(post.imagePosition)}">
+    <div class="card" id="${post.imagePosition == 'right' ? 'gronamackan' : ''}">
+    <img src="${getImage(post.images[0])}" class="${convertImagePositioning(post.imagePosition)} openGallery">
     <div class="card-content">
       <h2>${post.title}</h2>
 
@@ -118,9 +121,9 @@ function GetPostNode(post) {
     </div>
   </div>
     `)
-    function getImage(image){
-        if(image == null) return "";
-        else return "https://pkrl.xyz/"+image
+    function getImage(image) {
+        if (image == null) return "";
+        else return "https://pkrl.xyz/" + image
     }
 }
 /**
@@ -128,8 +131,8 @@ function GetPostNode(post) {
  * @param {String} position The position to put the image in. Allowed types are 'top' and 'right'.
  *                          Defaults to top.
  */
-function convertImagePositioning(position){
-    switch(position){
+function convertImagePositioning(position) {
+    switch (position) {
         case 'right':
             return 'card-banner-right'
         case 'top':

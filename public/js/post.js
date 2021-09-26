@@ -1,10 +1,12 @@
 /* ADMIN PAGE */
 
+
 /*
     TODO: 
     * Make edit and delete buttons work after a cancelled edit.
     * Refactor.
     * Re-write function comments and some inline comments.
+    * Convert Edit and Delete functions to POST and DELETE.
 */
 
 const token = window.localStorage.getItem('token')
@@ -23,64 +25,67 @@ let postStatus = document.getElementById("poststatus")
 UpdatePosts()
 
 // Add new post
-submitButton.addEventListener("click", () =>{
-    
+submitButton.addEventListener("click", () => {
+
     let radioButton
 
-    if(imagePosition[0].checked == true) radioButton = 'top'
+    if (imagePosition[0].checked == true) radioButton = 'top'
     else radioButton = 'right'
 
     let imageArray = images.value.split(",")
+    console.log(imageArray)
 
     // Send post data to server.
-    axios.get('/newPost?title='+title.value+
-            '&body='+body.value+
-            '&images='+imageArray.toString()+
-            '&imagePosition='+radioButton+
-            '&token='+token+
-            '&order='+postOrder.value)
-    .then((response)=> {
+    axios.post('/newPost', {
+        title: title.value,
+        body: body.value,
+        images: imageArray,
+        imagePosition: radioButton,
+        order: postOrder.value,
+        token: token
+    })
+        .then((response) => {
 
-        switch(response.data.added) {
-            case 'OK':
-                let post = 
-                {
-                    title: title.value,
-                    body: body.value,
-                    _id: response.data._id,
-                    images: images.value,
-                    imagePosition: imagePosition.value,
-                    order: postOrder.value
-                }
-    
-                ResetFields()
-                
-                // Insert new post into DOM.
-                postsContainer.appendChild(FormatPost(post))
-                console.log(FormatPost(post))
-                postStatus.innerHTML="Inlägg tillagt."
-                break;
-            
-            case 'no_auth':
-                postStatus.innerHTML="Ogiltig token. Inlägget är inte tillagt."
-                ResetFields()
-                break;
-            
-            default:
-                postStatus.innerHTML="Någonting gick fel. Försök igen senare."
-                ResetFields()
-          }
-    })
-    .catch((error)=> {
-        console.log(error)
-    })
+            switch (response.data.added) {
+                case 'OK':
+                    let post =
+                    {
+                        title: title.value,
+                        body: body.value,
+                        _id: response.data._id,
+                        images: images.value,
+                        imagePosition: imagePosition.value,
+                        order: postOrder.value
+                    }
+
+                    ResetFields()
+
+                    // Insert new post into DOM.
+                    postsContainer.appendChild(FormatPost(post))
+                    console.log(FormatPost(post))
+                    postStatus.innerHTML = "Inlägg tillagt."
+                    break;
+
+                case 'no_auth':
+                    postStatus.innerHTML = "Ogiltig token. Inlägget är inte tillagt."
+                    ResetFields()
+                    break;
+
+                default:
+                    postStatus.innerHTML = "Någonting gick fel. Försök igen senare."
+                    ResetFields()
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 })
 
-function ResetFields(){
-    title.value=''
-    body.value =''
-    images.value =''
-    postOrder.value=''
+function ResetFields() {
+    title.value = ''
+    body.value = ''
+    images.value = ''
+    postOrder.value = ''
 }
 
 /**
@@ -89,19 +94,19 @@ function ResetFields(){
  *  Empties the div 'postsContainer' (id: posts-hook) and
  *  populates it with new, updated posts from the server.
  */
-function UpdatePosts(){
+function UpdatePosts() {
     axios.get('getPosts?')
-    .then(response =>{
-        // Remove old posts.
-        postsContainer.innerHTML='';
-        
-        // Sort the posts by their order attributes.
-        response.data.sort((a,b)=>{ return (a.order > b.order ? 1:-1)})
-        response.data.forEach(post => {
-            // Format post data and insert in postsContainer.
-            postsContainer.appendChild(FormatPost(post))
-        });
-    })
+        .then(response => {
+            // Remove old posts.
+            postsContainer.innerHTML = '';
+
+            // Sort the posts by their order attributes.
+            response.data.sort((a, b) => { return (a.order > b.order ? 1 : -1) })
+            response.data.forEach(post => {
+                // Format post data and insert in postsContainer.
+                postsContainer.appendChild(FormatPost(post))
+            });
+        })
 }
 
 /**
@@ -112,8 +117,8 @@ function UpdatePosts(){
 function CreateElementFromHTML(htmlString) {
     let div = document.createElement('div');
     div.innerHTML = htmlString.trim();
-    return div.firstChild; 
-  }
+    return div.firstChild;
+}
 
 /** Formats a post into HTML and adds eventlisteners for delete and edit.
  *
@@ -122,27 +127,27 @@ function CreateElementFromHTML(htmlString) {
  */
 function FormatPost(post) {
 
-    var el = GetPostNode(post,true)
+    var el = GetPostNode(post, true)
 
     el.getElementsByClassName("delete")[0].addEventListener("click", e => {
 
-        axios.get('deletePost?_id='+post._id+'&token='+token)
-            .then(response =>{
-                
-                switch(response.data.deleted){
+        axios.get('deletePost?_id=' + post._id + '&token=' + token)
+            .then(response => {
+
+                switch (response.data.deleted) {
                     case 'OK':
                         el.remove()
                         break;
-                    
+
                     case 'no_auth':
-                        el.getElementsByClassName("status")[0].innerHTML="Ogiltig token. Inlägget är inte borttaget."
+                        el.getElementsByClassName("status")[0].innerHTML = "Ogiltig token. Inlägget är inte borttaget."
                         break;
-                    
+
                     default:
-                         // Print error!
+                    // Print error!
                 }
             })
-            .catch(err =>{
+            .catch(err => {
                 console.log(err)
             })
     })
@@ -185,7 +190,7 @@ function FormatPost(post) {
             </div>
         </div>
         `
-        el.getElementsByClassName('cancel')[0].addEventListener('click', e =>{
+        el.getElementsByClassName('cancel')[0].addEventListener('click', e => {
             // Does not work, eventlisterners stop working.
             el.replaceWith(el_copy)
         })
@@ -197,17 +202,17 @@ function FormatPost(post) {
         let radios = el.getElementsByClassName("imagePosition")
 
         // All code regarding the radio buttons are absolutley terrible. Re-factor!!!
-        if(post.imagePosition == 'top'){
+        if (post.imagePosition == 'top') {
             radios[0].checked = true
             radios[1].checked = false
         }
-        else{
+        else {
             radios[1].checked = true
             radios[0].checked = false
         }
 
-        el.getElementsByClassName("submitEdit")[0].addEventListener("click", e =>{
-            
+        el.getElementsByClassName("submitEdit")[0].addEventListener("click", e => {
+
             // Get the new values from input fields.
             newtitle = el.getElementsByClassName("titleEdit")[0].value
             newbody = el.getElementsByClassName("bodyEdit")[0].value
@@ -215,44 +220,44 @@ function FormatPost(post) {
             neworder = el.getElementsByClassName("OrderEdit")[0].value
 
             let radioButton
-            if(radios[0].checked == true){
+            if (radios[0].checked == true) {
                 radioButton = 'top'
             }
-            else{
+            else {
                 radioButton = 'right'
             }
 
             // Send new values to server.
-            axios.get('/editPost?title='+newtitle+
-                      '&body='+newbody+
-                      '&_id='+post._id+
-                      '&images='+newimages+
-                      '&imagePosition='+radioButton+
-                      '&order='+neworder+
-                      '&token='+token)
-            .then(response =>{
+            axios.get('/editPost?title=' + newtitle +
+                '&body=' + newbody +
+                '&_id=' + post._id +
+                '&images=' + newimages +
+                '&imagePosition=' + radioButton +
+                '&order=' + neworder +
+                '&token=' + token)
+                .then(response => {
 
-                switch(response.data.edited){
-                    case 'OK':
-                        // Add new post with new values.
-                        let newEl = FormatPost({title: newtitle, body: newbody,_id: post._id,images: newimages, imagePosition: radioButton})
-                        el.insertAdjacentElement('beforebegin',newEl)
-                        // Remove old post.
-                        el.remove()
+                    switch (response.data.edited) {
+                        case 'OK':
+                            // Add new post with new values.
+                            let newEl = FormatPost({ title: newtitle, body: newbody, _id: post._id, images: newimages, imagePosition: radioButton })
+                            el.insertAdjacentElement('beforebegin', newEl)
+                            // Remove old post.
+                            el.remove()
 
-                        newEl.getElementsByClassName("status")[0].innerHTML = "Inlägget har redigerats."
-                        break;
+                            newEl.getElementsByClassName("status")[0].innerHTML = "Inlägget har redigerats."
+                            break;
 
-                    case 'no_auth':
-                        el.getElementsByClassName("status")[0].innerHTML = "Ogiltig token. Inlägget har inte redigerats."
-                        break;
-                    default:
-                        el.getElementsByClassName("status")[0].innerHTML = "Någonting gick fel. Se node för stack trace."
-                }
-            })
-            .catch(err =>{
-                console.log(err)
-            })
+                        case 'no_auth':
+                            el.getElementsByClassName("status")[0].innerHTML = "Ogiltig token. Inlägget har inte redigerats."
+                            break;
+                        default:
+                            el.getElementsByClassName("status")[0].innerHTML = "Någonting gick fel. Se node för stack trace."
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         })
     })
     return el

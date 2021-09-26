@@ -2,6 +2,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto+Mono:wght@400;700&display=swap');
 
+@font-face {
+    font-family: Pumpkin;
+    src: url(../fonts/pumpkincheesecake.woff);
+  }
+
 :root {
     --primary: #A489BF;
     --secondary: #D18431;
@@ -9,11 +14,16 @@
     --dark-primary: #4A4A72;
     --black: #424242;
     --background: #F2ECE9;
-    --std-box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    --background-total: #d4cfda;
+    --banner-gradient: "linear-gradient(91deg, #a489bf, #d18431)";
+    --std-box-shadow: 0 0 50px rgba(0,0,0,0.05)
 }
 *{
     margin: 0;
     padding: 0;
+}
+img {
+    -webkit-user-drag: none;
 }
 
 /* ALIGNMENT */
@@ -22,16 +32,18 @@ body{
     margin: 0;
     padding: 0;
     background-size: cover;
+    transition-duration: 400ms;
+    background-color: var(--background-total);
 }
 main{
     display: grid;
-    grid-template-columns:  minmax(100px,auto) minmax(auto,1130px) auto;
+    grid-template-columns:  20px 20fr minmax(auto,1210px) 20fr 20px;
     grid-template-rows: 100px 600px 100px 100px auto 100px auto;
 }
 .flex-container{
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: 80px;
 }
 .whitespace-horizontal{
     width: 20px;
@@ -40,7 +52,7 @@ main{
     height: 20px;
 }
 section{
-    grid-column-start: 2;
+    grid-column-start: 3;
     grid-row-start: 5;
     grid-column-end: 3;
     grid-row-end: 5;
@@ -99,6 +111,20 @@ p,a,li,label{
 .card{
     background-color: var(--background);
     box-shadow: var(--std-box-shadow);
+    border-radius: 20px;
+    transition-duration: 200ms;
+    overflow: hidden;
+}
+.card-glass {
+    background-color: rgba(255,255,255,0.15);
+	border-radius: 20px;
+	backdrop-filter: blur(15px);
+	border-style: solid;
+	border-color: rgba(255, 255, 255, 0.2);
+	border-width: 2px;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 .button{
     padding: 15px 50px 15px 50px;
@@ -107,6 +133,7 @@ p,a,li,label{
     text-decoration: none;
     display: inline-block;
     transition-duration: 200ms;
+    border-radius: 10px;
 }
 .button:hover{
     transform: translateY(-5px);
@@ -126,13 +153,13 @@ p,a,li,label{
     margin: 0 30px 5px 0;
     height: 20px;
 }
-#github, #insta, #snap, .icon{
+.icon{
     height: 30px;
     padding: 0 15px 0 0;
     display: inline-block;
     transition-duration: 200ms;
 }
-#github:hover, #insta:hover, #snap:hover, .icon:hover{
+.icon:hover{
     transform: translateY(-5px);
     transition-duration: 200ms;
     cursor: pointer;
@@ -166,7 +193,7 @@ p,a,li,label{
     left: 0;
 }
 #title-card{
-    grid-column-start: 2;
+    grid-column-start: 3;
     grid-row-start: 2;
     width: 350px;
     opacity: 0;
@@ -174,33 +201,38 @@ p,a,li,label{
 #banner{
     grid-column-start: 1;
     grid-row-start: 1;
-    grid-column-end: 5;
+    grid-column-end: 6;
     grid-row-end: 4;
     
-    background: linear-gradient(91deg, #a489bf, #d18431);
-    background-size: 400% 400%;
+    /* Clean up here */
+    /*background: linear-gradient(45deg, #a489bf, #d18431);*/
+    background: url(../img/cool_gradient_2.svg);
+    background-size: cover;
 
-    -webkit-animation: banner-animation 29s ease infinite;
-    -moz-animation: banner-animation 29s ease infinite;
-    animation: banner-animation 29s ease infinite;
+    -webkit-animation: banner-animation 20s cubic-bezier(.25,0,.82,1) infinite;
+    -moz-animation: banner-animation 20s cubic-bezier(.25,0,.82,1) infinite;
+    animation: banner-animation 20s cubic-bezier(.25,0,.82,1) infinite;
+    transition-duration: 500ms;
 }
 #language{
-    grid-column-start: 2;
+    grid-column-start: 3;
     grid-row-start: 3;
     padding: 10px 0 0 0 ;
 }
 #footer{
     width: 100%;
+    border-radius: 0;
     grid-row-start: 7;
     grid-row-end: 7;
     grid-column-start: 1;
-    grid-column-end: 5;
+    grid-column-end: 6;
 }
 #footer-content{
     grid-row-start: 7;
     grid-row-end: 7;
-    grid-column-start: 2;
+    grid-column-start: 3;
     grid-column-end: 5;
+    z-index: 10000;
 }
 #gallery{
     display: none; /* is flex when visible*/
@@ -213,6 +245,7 @@ p,a,li,label{
     background-color: rgba(0,0,0,0.7);
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(10px);
 }
 #galleryImage{
     width: auto;
@@ -250,19 +283,32 @@ p,a,li,label{
     font-size: 2em;
     color: white;
 }
+#darkmode-btn{
+    position: absolute;
+    right: 10vw;
+    top: 20vh;
+    z-index: 1000000000;
+    cursor: pointer;
+}
+#darkmode {
+    font-family: 'Pumpkin';
+    font-size: 2em;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+}
 
 /* MOBILE */
 
 @media only screen and (max-width: 768px) {
     main{
         display: grid;
-        grid-template-columns:  auto 350px auto;
+        grid-template-columns:  0px auto 350px auto 0px;
         grid-template-rows: 20px 600px 100px 100px auto 100px;
     }
 
     #banner{
         grid-column-start: 1;
-        grid-column-end: 4;
+        grid-column-end: 6;
     }
     html{
         overflow-x: hidden;
@@ -281,13 +327,13 @@ p,a,li,label{
         grid-row-start: 7;
         grid-row-end: 7;
         grid-column-start: 1;
-        grid-column-end: 4;
+        grid-column-end: 5;
     }
     #footer-content{
         grid-row-start: 7;
         grid-row-end: 7;
         grid-column-start: 2;
-        grid-column-end: 4;
+        grid-column-end: 6;
     }
 }
 
@@ -304,9 +350,9 @@ p,a,li,label{
     100%{background-position:0% 50%}
 }
 @keyframes banner-animation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 51%}
-    100%{background-position:0% 50%}
+    0%{background-position:0% 0%}
+    50%{background-position:100% 0%}
+    100%{background-position:0% 0%}
 }
 @keyframes transitionIn {
     from {
