@@ -24,27 +24,28 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 /* Connect to db */
 import { MongoClient, ObjectId } from 'mongodb'
+import { Utilities } from './utils'
 
 const secrets = JSON.parse(fs.readFileSync('secrets.json').toString())
 const uri = secrets.connString
-const db = new MongoClient(uri);
-let portfolio: Db
+const mongoClient = new MongoClient(uri);
+let db: Db
 
-db.connect()
+mongoClient.connect()
     .then((success: any) => {
-        db.db("admin").command({ ping: 1 });
-        portfolio = db.db("portfolio")
-        log('success', 'MongoDB successfully connected.')
+        mongoClient.db("portfolio").command({ ping: 1 });
+        db = mongoClient.db("portfolio")
+        Utilities.log('success', 'MongoDB successfully connected.')
     })
     .catch((err: any) => {
-        log('', 'MongoDB connection failed.');
-        log('err', err)
+        Utilities.log('', 'MongoDB connection failed.');
+        Utilities.log('err', err)
     })
 
 routes.init(app)
 
 app.listen(port, () => {
-    log('success', 'Listening on port ' + port)
+    Utilities.log('success', 'Listening on port ' + port)
 })
 
 /* XMLHttpRequests */
@@ -56,24 +57,25 @@ app.post('/newPost', (req: Request, res: Response) => {
 
     if (!authenticated(req.body.token as string)) {
         res.send({ added: "no_auth" })
+        Utilities.log("warn", "Attempt to create new post without token was made.")
         return
     }
 
     const doc: post = req.body as unknown as post
 
-    portfolio.collection("posts").insertOne(doc)
+    db.collection("posts").insertOne(doc)
         .then((result: InsertOneResult) => {
-            log('note', 'Inserted one document into DB.')
+            Utilities.log('info', 'Inserted one document into DB.')
             res.send({ added: 'OK', _id: result.insertedId })
         })
 })
 
 // Retrieve all posts.
 app.get('/getPosts', (req: Request, res: Response) => {
-    portfolio.collection('posts').find().toArray()
+    db.collection('posts').find().toArray()
         .then((posts) => {
             res.send(posts)
-            log('info', 'Sent ' + posts.length + ' posts to a client.')
+            Utilities.log('info', 'Sent ' + posts.length + ' posts to a client.')
         })
 })
 
@@ -82,14 +84,15 @@ app.get('/deletePost', (req: Request, res: Response) => {
 
     if (!authenticated(req.query.token as string)) {
         res.send({ deleted: 'no_auth' })
+        Utilities.log("warn", "Attempt to delete a post without token was made.")
         return
     }
 
-    portfolio.collection('posts').deleteOne({ _id: new ObjectId(req.query._id as string) })
+    db.collection('posts').deleteOne({ _id: new ObjectId(req.query._id as string) })
         .then((result: DeleteResult) => {
 
             if (result.deletedCount == 1) {
-                log('note', 'Deleted 1 post from DB.')
+                Utilities.log('info', 'Deleted 1 post from DB.')
                 res.send({ deleted: 'OK' })
             }
             else {
@@ -97,7 +100,7 @@ app.get('/deletePost', (req: Request, res: Response) => {
             }
         })
         .catch(err => {
-            log('err', 'Error when a post deletion was attempted. See stack trace below:')
+            Utilities.log('err', 'Error when a post deletion was attempted. See stack trace below:')
             console.log(err)
         })
 })
@@ -107,6 +110,7 @@ app.get('/editPost', (req, res) => {
 
     if (!authenticated(req.query.token as string)) {
         res.send({ edited: 'no_auth' })
+        Utilities.log("warn", "Attempt to edit a post without token was made.")
         return
     }
 
@@ -120,10 +124,11 @@ app.get('/editPost', (req, res) => {
         }
     }
 
-    portfolio.collection('posts').updateOne({ _id: new ObjectId(req.query._id as string) }, updatePost)
+    db.collection('posts').updateOne({ _id: new ObjectId(req.query._id as string) }, updatePost)
         .then(result => {
             if (result)
                 res.send({ edited: 'OK' })
+            Utilities.log('info', "Updated one post in DB.")
         })
         .catch(err => {
             console.log(err)
@@ -136,7 +141,6 @@ app.get('/auth_result', (req, res) => {
     console.log(secrets.adminPassword)
 
     if (bcrypt.compareSync(req.query.password as string, secrets.adminPassword)) {
-        console.log("OK")
         bcrypt.hash(req.query.password as string, 3)
             .then(hash => {
                 res.send({ token: hash })
@@ -149,34 +153,5 @@ app.get('/auth_result', (req, res) => {
 
 function authenticated(token: string): boolean {
     return bcrypt.compareSync(secrets.adminHash, token)
-}
-/** Prints a message in the console.
- *
- *  @type       The type of message. Controls the appearance of the message in the console.
- *              Allowed types are 'fatal','err','warn','note' and 'success'.
- *  @message    Message to be printed.
- *  @return {void}
- */
-function log(type: string, message: any): void {
-    switch (type) {
-        case 'err':
-            console.log('ERR:'.bgWhite.black + ' ' + message.red)
-            break;
-        case 'fatal':
-            console.log('FATAL ERR:'.bgRed.white + ' ' + message.red)
-            break;
-        case 'warn':
-            console.log('WARN:'.bgWhite.black + ' ' + message.yellow)
-            break
-        case 'note':
-            console.log('NOTE:'.bgWhite.black + ' ' + message)
-            break
-        case 'success':
-            console.log('INFO:'.bgWhite.black + ' ' + message.green);
-            break
-        default:
-            console.log('INFO:'.bgWhite.black + ' ' + message)
-            break
-    }
 }
 

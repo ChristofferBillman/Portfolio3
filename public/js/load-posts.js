@@ -109,7 +109,7 @@ function GetPostNode(post) {
     //Change name of css class gronamackan to 'big', or something...
     return CreateElementFromHTML(`
     <div class="card" id="${post.imagePosition == 'right' ? 'gronamackan' : ''}">
-    <img src="${getImage(post.images[0])}" class="${convertImagePositioning(post.imagePosition)} openGallery">
+    <img src="${getImage(post.images[0])}" class="${convertImagePositioning(post.imagePosition)} openGallery" alt="Project Image">
     <div class="card-content">
       <h2>${post.title}</h2>
 

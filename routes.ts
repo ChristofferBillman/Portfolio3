@@ -25,15 +25,6 @@ export class Routes {
         app.get('/login', (req: Request, res: Response) => {
             res.sendFile(Utilities.getView('auth.html'))
         })
-
-        app.get('/1', (req: Request, res: Response) => {
-            res.sendFile(Utilities.getView('img.html'))
-            Utilities.log('note', 'Someone visited img 1.')
-        })
-        app.get('/2', (req: Request, res: Response) => {
-            res.sendFile(Utilities.getView('2.html'))
-            Utilities.log('note', 'Someone visited img 2.')
-        })
     }
 }
 
