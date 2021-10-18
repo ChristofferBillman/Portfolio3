@@ -1,11 +1,4 @@
-var snapchat = document.getElementById("snap")
-var insta = document.getElementById("insta")
-var github = document.getElementById("github")
-
-var glass = false
-
 var icons = document.getElementsByClassName("icon")
-
 var title = document.getElementById("title")
 var profileImage = document.getElementById("profile-image")
 

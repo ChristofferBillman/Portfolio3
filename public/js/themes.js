@@ -28,6 +28,8 @@ const darkTheme = {
     __std_box_shadow: "0 0 50px rgba(0,0,0,0.05)",
     __banner_bg: "url(../img/cool-gradient-wide.svg)",
     func: () => {
+        var icons = document.getElementsByClassName("icon")
+        for (let icon of icons) icon.style.filter = "invert(90%)"
     }
 }
 const glassTheme = {
@@ -44,6 +46,9 @@ const glassTheme = {
         document.getElementsByTagName("body")[0].style.backgroundSize = "cover"
         var cards = document.getElementsByClassName("card")
         for (let card of cards) card.classList.add("card-glass")
+
+        var icons = document.getElementsByClassName("icon")
+        for (let icon of icons) icon.style.filter = "invert(0%)"
     }
 }
 buttonIteration = 0
@@ -57,6 +62,7 @@ togglebtn.addEventListener("click", e => {
     }
     currentTheme.func()
 })
+
 function count() {
     buttonIteration++
     switch (buttonIteration % 3) {

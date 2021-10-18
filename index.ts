@@ -10,9 +10,10 @@ import { Db, DeleteResult, InsertOneResult } from 'mongodb'
 import bcrypt from 'bcrypt'
 import { Routes } from './routes'
 import { post } from './post'
-
+import { Utilities } from './utils'
 // Has to be like this, otherwise TS complains.
 import 'colors'
+
 const port: number = 80;
 
 const app: Application = express()
@@ -24,7 +25,6 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 /* Connect to db */
 import { MongoClient, ObjectId } from 'mongodb'
-import { Utilities } from './utils'
 
 const secrets = JSON.parse(fs.readFileSync('secrets.json').toString())
 const uri = secrets.connString

@@ -297,10 +297,6 @@ p,a,li,label{
     font-size: 2em;
     color: white;
 }
-/*#darkmode-btn{
-    height:80px;
-}*/
-
 #buttons{
     grid-column-start: 3;
     grid-row-start: 3;

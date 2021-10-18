@@ -4,7 +4,7 @@
     width: 350px;
 }
 #top-container{
-    grid-column-start: 2;
+    grid-column-start: 3;
     grid-row-start: 2;
 }
 #posts{

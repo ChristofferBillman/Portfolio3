@@ -16,9 +16,6 @@ export class Routes {
         app.get('/mockups', (req: Request, res: Response) => {
             res.sendFile(Utilities.getView('mockups.html'))
         })
-        app.get('/cv', (req: Request, res: Response) => {
-            res.sendFile(Utilities.getView('cv.html'))
-        })
         app.get('/admin', (req: Request, res: Response) => {
             res.sendFile(Utilities.getView('post.html'))
         })
