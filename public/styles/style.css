@@ -1,5 +1,7 @@
 /* SETUP */
-
+/*
+ *  Mobile version feels "cramped". Too little white space? Too much? Something feels wrong. 
+ */
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto+Mono:wght@400;700&display=swap');
 
 @font-face {
@@ -274,7 +276,7 @@ p,a,li,label{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100px;
+    /*height: 100px;*/
     width: 100%;
 }
 #galleryClose{

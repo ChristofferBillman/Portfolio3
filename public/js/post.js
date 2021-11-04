@@ -1,12 +1,10 @@
 /* ADMIN PAGE */
 
-
 /*
     TODO: 
     * Make edit and delete buttons work after a cancelled edit.
     * Refactor.
     * Re-write function comments and some inline comments.
-    * Convert Edit and Delete functions to POST and DELETE.
 */
 
 const token = window.localStorage.getItem('token')
@@ -33,7 +31,6 @@ submitButton.addEventListener("click", () => {
     else radioButton = 'right'
 
     let imageArray = images.value.split(",")
-    console.log(imageArray)
 
     // Send post data to server.
     axios.post('/newPost', {
@@ -228,13 +225,15 @@ function FormatPost(post) {
             }
 
             // Send new values to server.
-            axios.get('/editPost?title=' + newtitle +
-                '&body=' + newbody +
-                '&_id=' + post._id +
-                '&images=' + newimages +
-                '&imagePosition=' + radioButton +
-                '&order=' + neworder +
-                '&token=' + token)
+            axios.post('/editPost', {
+                title: newtitle,
+                body: newbody,
+                _id: post._id,
+                images: newimages,
+                imagePosition: radioButton,
+                order: neworder,
+                token: token
+            })
                 .then(response => {
 
                     switch (response.data.edited) {
