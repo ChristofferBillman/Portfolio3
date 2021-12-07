@@ -237,6 +237,7 @@ function FormatPost(post) {
                 .then(response => {
 
                     switch (response.data.edited) {
+                        // Add case 'NO_EDIT'
                         case 'OK':
                             // Add new post with new values.
                             let newEl = FormatPost({ title: newtitle, body: newbody, _id: post._id, images: newimages, imagePosition: radioButton })

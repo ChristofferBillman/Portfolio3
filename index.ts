@@ -136,6 +136,7 @@ app.post('/editPost', (req, res) => {
                     Utilities.log('note', 'Tried to edit post, but no matches found or no new data. Db has not been updated.')
                     // Sends 'edited: OK' to client even though this if statement triggered.
                     // May need to be overlooked in future.
+                    // call res.send with {edited: 'NO_EDIT'}
                 }
                 res.send({ edited: 'OK' })
                 Utilities.log('info', "Updated one post in DB.")
